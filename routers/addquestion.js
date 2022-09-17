@@ -205,7 +205,7 @@ router.get("/shuffle/:category", async (req, res) => {
 
 //     res.status(400).json(err);
 //   }
-   
+
 // })
 // shuffle category
 // router.put("/shuffle/:category", verify, async (req, res) => {
@@ -287,10 +287,9 @@ router.get("/shuffle/:category", async (req, res) => {
 //       type == "PYTHON"
 //     ) {
 //       qry_array = shuffleques.Aother.val;
-//     } 
+//     }
 //     res.status(200).json({ result: qry_array });
 
- 
 // //     let finalArray = [];
 // //     for (let i = 0; i < qry_array.length; i++) {
 // //       let quesget = qry_array[i];
@@ -337,24 +336,23 @@ router.put("/shuffle/:category", verify, async (req, res) => {
     let ques_array = [];
     for (let i of ques_category) {
       let quesget = await Question.findById(i._id);
-      let ansmatch = await Answer.find({ Qid: i._id, userId : decode._id});
-      let ans_flagRes = {}
-      if(ansmatch.length!=0){
-      let ans_flag = {
-        // userid: ansmatch[ansmatch.length-1].userId,
-        flag : ansmatch[ansmatch.length-1].ansid,
-        setopt : ansmatch[ansmatch.length-1].selectedOpt
+      let ansmatch = await Answer.find({ Qid: i._id, userId: decode._id });
+      let ans_flagRes = {};
+      if (ansmatch.length != 0) {
+        let ans_flag = {
+          // userid: ansmatch[ansmatch.length-1].userId,
+          flag: ansmatch[ansmatch.length - 1].ansid,
+          setopt: ansmatch[ansmatch.length - 1].selectedOpt,
+        };
+        ans_flagRes = ans_flag;
+      } else {
+        let ans_flag = {
+          flag: 2,
+          setopt: "",
+        };
+        ans_flagRes = ans_flag;
       }
-      ans_flagRes = ans_flag
-    }else
-    {
-      let ans_flag = {
-        flag : 2,
-        setopt : ""
-      }
-      ans_flagRes = ans_flag
-    }
-      ques_array.push({quesget ,ans_flagRes});
+      ques_array.push({ quesget, ans_flagRes });
     }
     res.status(200).json({ result: ques_array });
   } catch (err) {

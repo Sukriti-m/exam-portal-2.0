@@ -38,13 +38,12 @@ router.post("/login", async (req, res) => {
         expires: new Date(Date.now() + 10800),
         httpOnly: false,
       });
-      if (matchAdmin_password ) {
-       return res.status(200).send({
-          isAdmin: "true",
+      if (matchAdmin_password) {
+        return res.status(200).send({
+          isAdmin: user_check.isAdmin,
           cookie_token: `${cookie_token}`,
         });
-      } 
-      else if (matchUser_password) {
+      } else if (matchUser_password) {
         await User.findOneAndUpdate(
           { _id: user_check._id },
           {
@@ -53,7 +52,7 @@ router.post("/login", async (req, res) => {
             },
           }
         );
-        return  res.status(200).send({
+        return res.status(200).send({
           message: "User logged in successfully",
           cookie_token: cookie_token,
           isAdmin: "false",

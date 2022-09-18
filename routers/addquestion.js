@@ -6,6 +6,7 @@ const quesArray = require("../services/quesArray.json");
 const User = require("../schema_details/user");
 const verify = require("../middleware/auth");
 const atob = require("atob");
+const jwtDecode = require("jwt-decode");
 
 //add question array to db from json file
 //one time code to directly add all the questions to db
@@ -332,18 +333,20 @@ router.post("/questions/:category", verify, async (req, res) => {
     res.status(400).send("Bad Request");
   }
 });
-router.put("/flags/:userId", verify, async (req, res) => {
+router.put("/flags", verify, async ({ body, query }, res) => {
   try {
-    const { userId } = req.params;
-    const { category } = req.query;
+    const userId = jwtDecode(body.cookie_token);
+    const { _id } = userId;
+    const { category } = query;
     const userFlags = await Answer.find(
       {
-        $and: [{ userId: userId }, { category: category }],
+        $and: [{ userId: _id }, { category: category }],
       },
       { Qid: 1, userAnswer: 1, ansid: 1 }
     );
     res.status(200).send(userFlags);
   } catch (error) {
+    console.log(error);
     res.status(500).send("Something went wrong");
   }
 });

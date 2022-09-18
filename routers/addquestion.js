@@ -323,49 +323,45 @@ router.get("/shuffle/:category", async (req, res) => {
 //   }
 // });
 // To-Do : return all the questions with user data and flags
-router.post(
-  "/user-answers/:category",
-  verify,
-  async ({ body, params }, res) => {
-    try {
-      const userId = jwtDecode(body.cookie_token);
-      const { _id } = userId;
-      const { category } = params;
-      console.log(category);
-      const categoryQuestions = await Question.find({ category: category });
-      const userFlags = await Answer.find(
-        {
-          $and: [{ userId: _id }, { category: category }],
-        },
-        { _id: 0, Qid: 1, userAnswer: 1, ansid: 1, selectedOpt: 1 }
-      );
-      let updatedQuestions = [];
-      categoryQuestions.forEach((question) => {
-        const questionFound = userFlags.find((o) => o.Qid.equals(question._id));
-        if (questionFound) {
-          question = {
-            ...question._doc,
-            ansid: questionFound.ansid,
-            userAnswer: questionFound.userAnswer,
-            selectedOpt: questionFound.selectedOpt,
-          };
-        } else {
-          question = {
-            ...question._doc,
-            ansid: 2,
-            userAnswer: -1,
-            selectedOpt: "",
-          };
-        }
-        updatedQuestions.push(question);
-      });
-      res.status(200).send(updatedQuestions);
-    } catch (err) {
-      console.log(err);
-      res.status(400).send("Bad Request");
-    }
+router.put("/user-answers/:category", verify, async ({ body, params }, res) => {
+  try {
+    const userId = jwtDecode(body.cookie_token);
+    const { _id } = userId;
+    const { category } = params;
+    console.log(category);
+    const categoryQuestions = await Question.find({ category: category });
+    const userFlags = await Answer.find(
+      {
+        $and: [{ userId: _id }, { category: category }],
+      },
+      { _id: 0, Qid: 1, userAnswer: 1, ansid: 1, selectedOpt: 1 }
+    );
+    let updatedQuestions = [];
+    categoryQuestions.forEach((question) => {
+      const questionFound = userFlags.find((o) => o.Qid.equals(question._id));
+      if (questionFound) {
+        question = {
+          ...question._doc,
+          ansid: questionFound.ansid,
+          userAnswer: questionFound.userAnswer,
+          selectedOpt: questionFound.selectedOpt,
+        };
+      } else {
+        question = {
+          ...question._doc,
+          ansid: 2,
+          userAnswer: -1,
+          selectedOpt: "",
+        };
+      }
+      updatedQuestions.push(question);
+    });
+    res.status(200).send(updatedQuestions);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send("Bad Request");
   }
-);
+});
 router.post("/questions/:category", verify, async (req, res) => {
   try {
     const categoryQuestions = await Question.find({ category: category });

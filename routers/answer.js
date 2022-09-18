@@ -32,7 +32,7 @@ router.put("/set-answer", verify, async ({ body }, res) => {
     res.status(200).send("Answer added/updated successfully");
   } catch (err) {
     console.log(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).send(err);
   }
 });
 

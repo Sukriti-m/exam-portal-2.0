@@ -332,7 +332,21 @@ router.post("/questions/:category", verify, async (req, res) => {
     res.status(400).send("Bad Request");
   }
 });
-router.get("/flags", verify, async (req, res) => {});
+router.put("/flags/:userId", verify, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { category } = req.query;
+    const userFlags = await Answer.find(
+      {
+        $and: [{ userId: userId }, { category: category }],
+      },
+      { Qid: 1, userAnswer: 1, ansid: 1 }
+    );
+    res.status(200).send(userFlags);
+  } catch (error) {
+    res.status(500).send("Something went wrong");
+  }
+});
 
 router.put("/shuffle/:category", verify, async (req, res) => {
   try {

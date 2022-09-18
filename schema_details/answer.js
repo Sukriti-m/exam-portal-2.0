@@ -1,26 +1,29 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const answerSchema = new Schema({
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
+const answerSchema = new Schema(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    Qid: { type: Schema.Types.ObjectId, ref: "Question" },
+    question: { type: String, required: true },
+    category: { type: String, required: true },
+    userAnswer: { type: Number, default: 200 },
+    isCorrect: { type: Boolean, default: false },
+    //ch
+    ansid: {
+      type: Number,
+      default: 2,
+    },
+    selectedOpt: {
+      type: String,
+      default: "",
+    },
   },
-  Qid: { type: Schema.Types.ObjectId, ref: "Question" },
-  question: { type: String, required: true },
-  category: { type: String, required: true },
-  userAnswer: { type: Number, default: 200},
-  isCorrect: { type: Boolean, default: false },
-  //ch
-  ansid: {
-    type: Number,
-    default: 2,
-  },
-  selectedOpt: {
-    type: String,
-    default: "",
-  },
-});
+  { timestamps: true }
+);
 
 const Answer = new mongoose.model("Answer", answerSchema);
 

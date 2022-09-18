@@ -114,27 +114,27 @@ const nodemailer = require("nodemailer");
 //   }
 // });
 
-// // delete a user
+// delete a user
 
-// router.delete("/user/:id", async (req, res) => {
-//   try {
-//     const user = await User.findByIdAndDelete(req.params.id);
-//     if (!user) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "This user id doesn't exixt",
-//       });
-//     } else {
-//       res.status(200).json({
-//         success: true,
-//         message: "Account deleted",
-//       });
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).json(err);
-//   }
-// });
+router.delete("/user/:id", async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "This user id doesn't exixt",
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Account deleted",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json(err);
+  }
+});
 
 // // Update a user
 

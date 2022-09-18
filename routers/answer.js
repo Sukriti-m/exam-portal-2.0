@@ -10,7 +10,7 @@ const mongoose = require("mongoose");
 
 router.put("/set-answer", verify, async ({ body }, res) => {
   try {
-    const { question, userAnswer, ansid, Qid, cookie_token } = body;
+    const { question, userAnswer, ansid, Qid, cookie_token, category } = body;
     const userId = jwtDecode(cookie_token);
     const { _id } = userId;
     const answer = await Answer.findOneAndUpdate(
@@ -32,7 +32,7 @@ router.put("/set-answer", verify, async ({ body }, res) => {
     res.status(200).send("Answer added/updated successfully");
   } catch (err) {
     console.log(err);
-    res.status(500).send(err);
+    res.status(500).send("Internal Server Error");
   }
 });
 

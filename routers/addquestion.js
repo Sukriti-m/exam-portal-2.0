@@ -328,7 +328,6 @@ router.put("/user-answers/:category", verify, async ({ body, params }, res) => {
     const userId = jwtDecode(body.cookie_token);
     const { _id } = userId;
     const { category } = params;
-    console.log(category);
     const categoryQuestions = await Question.find({ category: category });
     const userFlags = await Answer.find(
       {

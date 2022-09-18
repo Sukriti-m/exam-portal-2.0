@@ -6,6 +6,35 @@ const User = require("../schema_details/user");
 const atob = require("atob");
 const verify = require("../middleware/auth");
 const jwtDecode = require("jwt-decode");
+const mongoose = require("mongoose");
+
+router.put("/set-answer", verify, async ({ body }, res) => {
+  try {
+    const { question, userAnswer, ansid, Qid, cookie_token } = body;
+    const userId = jwtDecode(cookie_token);
+    const { _id } = userId;
+    const answer = await Answer.findOneAndUpdate(
+      {
+        $and: [{ userId: _id }, { Qid: Qid }],
+      },
+      { $set: { ansid: ansid, userAnswer: userAnswer } }
+    );
+    if (!answer) {
+      new Answer({
+        question: question,
+        category: category,
+        userId: userId,
+        Qid: new mongoose.Types.ObjectId(Qid),
+        userAnswer: userAnswer,
+        ansid: ansid,
+      }).save();
+    }
+    res.status(200).send("Answer added/updated successfully");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Something went wrong");
+  }
+});
 
 router.put("/answer", verify, async (req, res) => {
   try {

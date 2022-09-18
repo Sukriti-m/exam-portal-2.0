@@ -21,68 +21,71 @@ router.patch("/quesansdata", verify, async (req, res) => {
     const decode = JSON.parse(atob(dec)); //contains Userid
     console.log(dec);
 
-    const findAns = await Answer.find({ userId: decode });
+    // const findAns = await Answer.find({ userId: decode });
+    const finadcalAns = await Answer.find({ userId: decode });
     // set for unique quesIDs
 
-    let quesIDs = new Set();
-    for (let i = 0; i < findAns.length; i++) {
-      quesIDs.add(findAns[i].Qid.valueOf());
-    }
+    // let quesIDs = new Set();
+    // for (let i = 0; i < findAns.length; i++) {
+    //   quesIDs.add(findAns[i].Qid.valueOf());
+    // }
 
-    quesIDs.forEach(async (e) => {
+    for (let i = 0; i < finadcalAns.length; i++) {  
+
       // let ques = await Question.findById(e);
-      let findcorrectAns = await Answer.find({ Qid: e, userId: decode._id });
-      let finadcalAns = findcorrectAns[findcorrectAns.length - 1];
-      if (finadcalAns.category === "HTML" || finadcalAns.category === "html") {
+      // let findcorrectAns = await Answer.find({ Qid: e, userId: decode._id });
+      // let finadcalAns = findcorrectAns[findcorrectAns.length - 1];
+      if (finadcalAns[i].category === "HTML" || finadcalAns[i].category === "html") {
         if (
-          (finadcalAns.isCorrect === true && finadcalAns.ansid === 1) ||
-          (finadcalAns.isCorrect === true && finadcalAns.ansid === 3)
+          (finadcalAns[i].isCorrect === true && finadcalAns[i].ansid === 1) ||
+          (finadcalAns[i].isCorrect === true && finadcalAns[i].ansid === 3)
         ) {
           NumHtml += 1;
         }
       } else if (
-        finadcalAns.category === "CSS" ||
-        finadcalAns.category === "css"
+        finadcalAns[i].category === "CSS" ||
+        finadcalAns[i].category === "css"
       ) {
         if (
-          (finadcalAns.isCorrect === true && finadcalAns.ansid === 1) ||
-          (finadcalAns.isCorrect === true && finadcalAns.ansid === 3)
+          (finadcalAns[i].isCorrect === true && finadcalAns[i].ansid === 1) ||
+          (finadcalAns[i].isCorrect === true && finadcalAns[i].ansid === 3)
         ) {
           NumCss += 1;
         }
       } else if (
-        finadcalAns.category === "SQL" ||
-        finadcalAns.category === "sql"
+        finadcalAns[i].category === "SQL" ||
+        finadcalAns[i].category === "sql"
       ) {
         if (
-          (finadcalAns.isCorrect === true && finadcalAns.ansid === 1) ||
-          (finadcalAns.isCorrect === true && finadcalAns.ansid === 3)
+          (finadcalAns[i].isCorrect === true && finadcalAns[i].ansid === 1) ||
+          (finadcalAns[i].isCorrect === true && finadcalAns[i].ansid === 3)
         ) {
           NumSql += 1;
         }
       } else if (
-        finadcalAns.category === "APTITUDE" ||
-        finadcalAns.category === "aptitude"
+        finadcalAns[i].category === "APTITUDE" ||
+        finadcalAns[i].category === "aptitude"
       ) {
         if (
-          (finadcalAns.isCorrect === true && finadcalAns.ansid === 1) ||
-          (finadcalAns.isCorrect === true && finadcalAns.ansid === 3)
+          (finadcalAns[i].isCorrect === true && finadcalAns[i].ansid === 1) ||
+          (finadcalAns[i].isCorrect === true && finadcalAns[i].ansid === 3)
         ) {
           NumAptitude += 1;
         }
       } else if (
-        finadcalAns.category === "C" ||
-        finadcalAns.category === "C++" ||
-        finadcalAns.category === "JAVA" ||
-        finadcalAns.category === "PYTHON"
+        finadcalAns[i].category === "C" ||
+        finadcalAns[i].category === "C++" ||
+        finadcalAns[i].category === "JAVA" ||
+        finadcalAns[i].category === "PYTHON"
       ) {
         if (
-          (finadcalAns.isCorrect === true && finadcalAns.ansid === 1) ||
-          (finadcalAns.isCorrect === true && finadcalAns.ansid === 3)
+          (finadcalAns[i].isCorrect === true && finadcalAns[i].ansid === 1) ||
+          (finadcalAns[i].isCorrect === true && finadcalAns[i].ansid === 3)
         ) {
           NumLang += 1;
         }
       }
+
       TotalNum = NumHtml + NumCss + NumAptitude + NumSql + NumLang;
       let today = new Date();
       let date =
@@ -106,7 +109,7 @@ router.patch("/quesansdata", verify, async (req, res) => {
           },
         },
       });
-    });
+    }
     res.status(200).send({ msg: "Total sum added", isVerified });
     (NumHtml = 0),
       (NumCss = 0),

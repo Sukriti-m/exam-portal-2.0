@@ -333,7 +333,7 @@ router.post("/user-answers", verify, async ({ body, query }, res) => {
       {
         $and: [{ userId: _id }, { category: category }],
       },
-      { _id: 0, Qid: 1, userAnswer: 1, ansid: 1 }
+      { _id: 0, Qid: 1, userAnswer: 1, ansid: 1, selectedOpt: 1 }
     );
     let updatedQuestions = [];
     categoryQuestions.forEach((question) => {
@@ -343,12 +343,14 @@ router.post("/user-answers", verify, async ({ body, query }, res) => {
           ...question._doc,
           ansid: questionFound.ansid,
           userAnswer: questionFound.userAnswer,
+          selectedOpt: questionFound.selectedOpt,
         };
       } else {
         question = {
           ...question._doc,
           ansid: 2,
           userAnswer: -1,
+          selectedOpt: "",
         };
       }
       updatedQuestions.push(question);

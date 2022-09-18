@@ -321,15 +321,19 @@ router.get("/shuffle/:category", async (req, res) => {
 //     res.status(400).json(err);
 //   }
 // });
-router.get("/questions/:category", verify, async (req, res) => {
+router.post("/questions/:category", verify, async (req, res) => {
   try {
     const { category } = req.params;
     const categoryQuestions = await Question.find({ category: category });
-    res.status(200).json({ message: "All questions", data: categoryQuestions });
+    res
+      .status(200)
+      .json({ message: `All ${category} questions`, data: categoryQuestions });
   } catch (err) {
     res.status(400).send("Bad Request");
   }
 });
+router.get("/flags", verify, async (req, res) => {});
+
 router.put("/shuffle/:category", verify, async (req, res) => {
   try {
     const isVerified = true;

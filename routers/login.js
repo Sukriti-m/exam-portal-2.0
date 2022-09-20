@@ -1,5 +1,3 @@
-// login is completed
-
 const express = require("express");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
@@ -56,7 +54,7 @@ router.post("/login", async (req, res) => {
         return res.status(200).send({
           message: "User logged in successfully",
           cookie_token: cookie_token,
-          isAdmin: "false",
+          isAdmin: user_check.isAdmin,
           hasAppeared: user_check.hasAppeared,
         });
       } else {

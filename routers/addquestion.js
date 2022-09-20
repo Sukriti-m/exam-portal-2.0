@@ -1,9 +1,9 @@
 const express = require("express");
 const router = new express.Router();
-const Question = require("../schema_details/question");
-const Answer = require("../schema_details/answer");
+const Question = require("../models/question");
+const Answer = require("../models/answer");
 const quesArray = require("../services/quesArray.json");
-const User = require("../schema_details/user");
+const User = require("../models/user");
 const verify = require("../middleware/auth");
 const atob = require("atob");
 const jwtDecode = require("jwt-decode");

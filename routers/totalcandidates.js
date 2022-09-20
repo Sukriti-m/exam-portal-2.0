@@ -6,9 +6,9 @@
 
 const express = require("express");
 const router = new express.Router();
-const User = require("../schema_details/user");
-const Feedback_Ins = require("../schema_details/ins_feed");
-const Question = require("../schema_details/question");
+const User = require("../models/user");
+const Feedback_Ins = require("../models/ins_feed");
+const Question = require("../models/question");
 
 router.get("/total", async (req, res) => {
   try {

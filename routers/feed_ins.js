@@ -1,9 +1,9 @@
 const express = require("express");
-const Feedback_Ins = require("../schema_details/ins_feed");
+const Feedback_Ins = require("../models/ins_feed");
 const router = new express.Router();
 const atob = require("atob");
 const verify = require("../middleware/auth");
-const User = require("../schema_details/user");
+const User = require("../models/user");
 
 //instruction
 
@@ -28,7 +28,7 @@ router.patch("/instruction", verify, async (req, res) => {
     await User.findByIdAndUpdate(decode, {
       $set: {
         loginAt: new Date().toISOString().replace(/T/, " ").replace(/\..+/, ""),
-       lang: req.body.lang,
+        lang: req.body.lang,
       },
     });
 

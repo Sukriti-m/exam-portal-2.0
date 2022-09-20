@@ -1,8 +1,8 @@
 const express = require("express");
 const router = new express.Router();
-const User = require("../schema_details/user");
+const User = require("../models/user");
 const nodemailer = require("nodemailer");
-
+const bcrypt = require("bcrypt");
 // router.get("/register", async (req, res) => {
 //   try {
 //     const Usersdata = await User.find();
@@ -49,7 +49,7 @@ router.post("/register", async (req, res) => {
       rollNum,
       mobileNum,
       password: `${process.env.USERPASSWORD}@${studentNum}`,
-      adminPassword: `${process.env.ADMINPASSWORD}@${studentNum}`,
+
       year,
       branch,
       gender,
@@ -57,42 +57,46 @@ router.post("/register", async (req, res) => {
       isHosteler,
     });
 
+    // bcrypt password
+    const salt = await bcrypt.genSalt(10);
+    user_create.password = await bcrypt.hash(user_create.password, salt);
+
     const saveUser = await user_create.save();
 
     // sending mail
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.id,
-        pass: process.env.pass,
-      },
-    });
+    // const transporter = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: process.env.id,
+    //     pass: process.env.pass,
+    //   },
+    // });
 
-    const mailOptions = {
-      from: process.env.id,
-      to: user_create.email,
-      subject: "Registered for CINE'22",
+    // const mailOptions = {
+    //   from: process.env.id,
+    //   to: user_create.email,
+    //   subject: "Registered for CINE'22",
 
-      html:
-        "<p>Team CSI congratulates you for being successfully registered for CINE'22. Brace yourself, fasten your seatbelts, polish your skills, and be ready for the most exciting recruitment drive.</p>" +
-        "<h4>Mode: Offline</h4>" +
-        "<h4>Date: 19 Sept 2022</h4>" +
-        "<h4>Time: 4pm-6pm</h4>" +
-        "<h4>Venue: Basic IT Lab( CSIT Block)</h4>" +
-        "<h4>Stay Tuned to our Instagram page for further information.</h4>" +
-        "<h4>https://www.instagram.com/csi_akgec/</h4>" +
-        "<h4>Regards,</h4>" +
-        "<h4>Team CSI</h4>",
-    };
+    //   html:
+    //     "<p>Team CSI congratulates you for being successfully registered for CINE'22. Brace yourself, fasten your seatbelts, polish your skills, and be ready for the most exciting recruitment drive.</p>" +
+    //     "<h4>Mode: Offline</h4>" +
+    //     "<h4>Date: 19 Sept 2022</h4>" +
+    //     "<h4>Time: 4pm-6pm</h4>" +
+    //     "<h4>Venue: Basic IT Lab( CSIT Block)</h4>" +
+    //     "<h4>Stay Tuned to our Instagram page for further information.</h4>" +
+    //     "<h4>https://www.instagram.com/csi_akgec/</h4>" +
+    //     "<h4>Regards,</h4>" +
+    //     "<h4>Team CSI</h4>",
+    // };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("OTP sent: " + info.response);
-      }
-    });
+    // transporter.sendMail(mailOptions, function (error, info) {
+    //   if (error) {
+    //     console.log(error);
+    //   } else {
+    //     console.log("OTP sent: " + info.response);
+    //   }
+    // });
     res.status(200).send({
       message: "User Successfully Registered",
       id: saveUser._id,

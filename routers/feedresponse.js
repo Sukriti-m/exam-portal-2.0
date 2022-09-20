@@ -1,8 +1,8 @@
 const express = require("express");
 const router = new express.Router();
-const FeedAnswer = require("../schema_details/feedresponse");
-const FeedQuestion = require("../schema_details/ins_feed");
-const User = require("../schema_details/user");
+const FeedAnswer = require("../models/feedresponse");
+const FeedQuestion = require("../models/ins_feed");
+const User = require("../models/user");
 const atob = require("atob");
 const verify = require("../middleware/auth");
 

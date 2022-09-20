@@ -1,6 +1,6 @@
-const Question = require("../schema_details/question");
-const Answer = require("../schema_details/answer");
-const User = require("../schema_details/user");
+const Question = require("../models/question");
+const Answer = require("../models/answer");
+const User = require("../models/user");
 const express = require("express");
 const verify = require("../middleware/auth");
 const atob = require("atob");
@@ -30,12 +30,14 @@ router.patch("/quesansdata", verify, async (req, res) => {
     //   quesIDs.add(findAns[i].Qid.valueOf());
     // }
 
-    for (let i = 0; i < finadcalAns.length; i++) {  
-
+    for (let i = 0; i < finadcalAns.length; i++) {
       // let ques = await Question.findById(e);
       // let findcorrectAns = await Answer.find({ Qid: e, userId: decode._id });
       // let finadcalAns = findcorrectAns[findcorrectAns.length - 1];
-      if (finadcalAns[i].category === "HTML" || finadcalAns[i].category === "html") {
+      if (
+        finadcalAns[i].category === "HTML" ||
+        finadcalAns[i].category === "html"
+      ) {
         if (
           (finadcalAns[i].isCorrect === true && finadcalAns[i].ansid === 1) ||
           (finadcalAns[i].isCorrect === true && finadcalAns[i].ansid === 3)

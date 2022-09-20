@@ -1,7 +1,7 @@
 // login is completed
 
 const express = require("express");
-const User = require("../schema_details/user");
+const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const router = new express.Router();
 
@@ -24,10 +24,10 @@ router.post("/login", async (req, res) => {
         password,
         user_check.password
       );
-      const matchAdmin_password = await bcrypt.compare(
-        password,
-        user_check.adminPassword
-      );
+      // const matchAdmin_password = await bcrypt.compare(
+      //   password,
+      //   user_check.adminPassword
+      // );
 
       const cookie_token = await user_check.generateAuthToken();
       console.log(cookie_token);
@@ -38,12 +38,13 @@ router.post("/login", async (req, res) => {
         expires: new Date(Date.now() + 10800),
         httpOnly: false,
       });
-      if (matchAdmin_password) {
-        return res.status(200).send({
-          isAdmin: user_check.isAdmin,
-          cookie_token: `${cookie_token}`,
-        });
-      } else if (matchUser_password) {
+      // if (matchAdmin_password) {
+      //   return res.status(200).send({
+      //     isAdmin: user_check.isAdmin,
+      //     cookie_token: `${cookie_token}`,
+      //   });
+      //
+      if (matchUser_password) {
         await User.findOneAndUpdate(
           { _id: user_check._id },
           {

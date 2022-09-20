@@ -1,9 +1,9 @@
 const express = require("express");
-const Feedback_Ins = require("../schema_details/instruction_feedback");
+const Feedback_Ins = require("../models/instruction_feedback");
 const router = new express.Router();
 const atob = require("atob");
 const verify = require("../middleware/auth");
-const User = require("../schema_details/user");
+const User = require("../models/user");
 
 //instruction
 
@@ -74,7 +74,7 @@ router.patch("/feedback/:id", async (req, res) => {
 router.get("/feed/seefeedbackques", async (req, res) => {
   try {
     const feedbackQuestionsData = await Feedback_Ins.find();
-    res.status(201).send({result:feedbackQuestionsData});
+    res.status(201).send({ result: feedbackQuestionsData });
   } catch (err) {
     res.status(400).send(err);
   }

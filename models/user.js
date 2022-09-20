@@ -35,7 +35,7 @@ const UserSchema = new Schema({
     unique: true,
   },
   password: { type: String },
-  adminPassword: { type: String },
+
   year: {
     type: Number,
     required: true,
@@ -125,7 +125,7 @@ const UserSchema = new Schema({
   Aother: {
     f: { type: Boolean, default: false },
     val: { type: Array, default: [] },
-  }
+  },
 });
 
 // token generate---------
@@ -140,15 +140,15 @@ UserSchema.methods.generateAuthToken = async function () {
 };
 
 // password encryption------------
-UserSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, saltRounds);
-  }
-  if (this.isModified("adminPassword")) {
-    this.adminPassword = await bcrypt.hash(this.adminPassword, saltRounds);
-  }
-  next();
-});
+// UserSchema.pre("save", async function (next) {
+//   if (this.isModified("password")) {
+//     this.password = await bcrypt.hash(this.password, saltRounds);
+//   }
+//   if (this.isModified("adminPassword")) {
+//     this.adminPassword = await bcrypt.hash(this.adminPassword, saltRounds);
+//   }
+//   next();
+// });
 
 const User = new mongoose.model("User", UserSchema);
 module.exports = User;

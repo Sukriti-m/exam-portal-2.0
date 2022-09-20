@@ -7,6 +7,36 @@ const atob = require("atob");
 const jwtDecode = require("jwt-decode");
 const verify = require("../middleware/auth");
 
+const mongoose = require("mongoose");
+
+router.put("/set-answer", verify, async ({ body }, res) => {
+  try {
+    const { question, userAnswer, ansid, Qid, cookie_token, category } = body;
+    const userId = jwtDecode(cookie_token);
+    const { _id } = userId;
+    const answer = await Answer.findOneAndUpdate(
+      {
+        $and: [{ userId: _id }, { Qid: Qid }],
+      },
+      { $set: { ansid: ansid, userAnswer: userAnswer } }
+    );
+    if (!answer) {
+      new Answer({
+        question: question,
+        category: category,
+        userId: userId,
+        Qid: new mongoose.Types.ObjectId(Qid),
+        userAnswer: userAnswer,
+        ansid: ansid,
+      }).save();
+    }
+    res.status(200).send("Answer added/updated successfully");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 router.put("/submit/answer", verify, async ({ body }, res) => {
   try {
     const userId = jwtDecode(body.cookie_token);
@@ -19,12 +49,14 @@ router.put("/submit/answer", verify, async ({ body }, res) => {
 
 router.put("/answer", verify, async (req, res) => {
   try {
+    // const userId = jwtDecode(body.cookie_token);
+    // const { _id } = userId;
     const isVerified = true;
     const token = req.body.cookie_token;
     const dec = token.split(".")[1];
     const decode = JSON.parse(atob(dec)); //contains Userid
     console.log(dec);
-    const { question, category, userAnswer, ansid, Qid } = await req.body;
+    const { question, category, userAnswer, ansid, Qid } = req.body;
 
     const existAns = await Answer.find({ Qid: Qid, userId: decode._id });
     if (existAns.length != 0) {

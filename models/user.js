@@ -1,8 +1,5 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-const saltRounds = 10;
-const jwt = require("jsonwebtoken");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -35,7 +32,6 @@ const UserSchema = new Schema({
     unique: true,
   },
   password: { type: String },
-
   year: {
     type: Number,
     required: true,
@@ -70,10 +66,6 @@ const UserSchema = new Schema({
   logoutAt: {
     type: String,
     default: null,
-  },
-  login_user: {
-    type: Boolean,
-    default: false,
   },
   isAdmin: {
     type: Boolean,
@@ -129,15 +121,15 @@ const UserSchema = new Schema({
 });
 
 // token generate---------
-UserSchema.methods.generateAuthToken = async function () {
-  try {
-    const pay_load = { _id: this._id };
-    const token = jwt.sign(pay_load, process.env.TOKEN_SECRET_KEY);
-    return token;
-  } catch (err) {
-    res.status(400).send(err);
-  }
-};
+// UserSchema.methods.generateAuthToken = async function () {
+//   try {
+//     const pay_load = { _id: this._id };
+//     const token = jwt.sign(pay_load, process.env.TOKEN_SECRET_KEY);
+//     return token;
+//   } catch (err) {
+//     res.status(400).send(err);
+//   }
+// };
 
 // password encryption------------
 // UserSchema.pre("save", async function (next) {
@@ -165,3 +157,5 @@ module.exports = User;
 //     gender: String
 //     isHosteler: Boolean
 //     startTime: Number
+
+

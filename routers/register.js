@@ -49,7 +49,6 @@ router.post("/register", async (req, res) => {
       rollNum,
       mobileNum,
       password: `${process.env.USERPASSWORD}@${studentNum}`,
-
       year,
       branch,
       gender,

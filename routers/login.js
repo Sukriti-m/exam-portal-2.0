@@ -1,6 +1,8 @@
+require("dotenv").config();
 const express = require("express");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const router = new express.Router();
 
 router.get("/admin", async (req, res) => {
@@ -10,8 +12,7 @@ router.get("/admin", async (req, res) => {
 // login route
 router.post("/login", async (req, res) => {
   try {
-    const password = req.body.password;
-    const studentNum = req.body.studentNum;
+    const {password, studentNum} = req.body;
 
     const user_check = await User.findOne({ studentNum: studentNum });
     if (!user_check) {
@@ -26,9 +27,10 @@ router.post("/login", async (req, res) => {
       //   password,
       //   user_check.adminPassword
       // );
-
-      const cookie_token = await user_check.generateAuthToken();
-      console.log(cookie_token);
+      const pay_load = { _id: user_check._id };
+      const cookie_token = jwt.sign(pay_load, process.env.TOKEN_SECRET_KEY);
+      // const cookie_token = await user_check.generateAuthToken();
+      // console.log(cookie_token);
 
       //add cookie
       res.cookie("jwt_csi", cookie_token, {
@@ -43,14 +45,6 @@ router.post("/login", async (req, res) => {
       //   });
       //
       if (matchUser_password) {
-        await User.findOneAndUpdate(
-          { _id: user_check._id },
-          {
-            $set: {
-              login_user: true,
-            },
-          }
-        );
         return res.status(200).send({
           message: "User logged in successfully",
           cookie_token: cookie_token,

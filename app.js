@@ -1,13 +1,13 @@
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const express = require("express");
-const login_router = require("./routers/login");
-const register_router = require("./routers/register");
+const loginRouter = require("./routers/login");
+const registerRouter = require("./routers/register");
 const feedbackIns = require("./routers/feed_ins");
-const addquestion_router = require("./routers/addquestion");
+const addquestionRouter = require("./routers/addquestion");
 const answer = require("./routers/answer");
-const totalcandidates = require("./routers/totalcandidates");
-const response_ans = require("./routers/feedresponse");
+const totalCandidates = require("./routers/totalcandidates");
+const responseAns = require("./routers/feedresponse");
 const ansMarking = require("./services/ansmarking");
 require("./data_connection/data");
 
@@ -40,18 +40,16 @@ app.use(cookieParser());
 
 // routers -------------------
 
-app.use("/", register_router);
-app.use("/", login_router);
+app.use("/", registerRouter);
+app.use("/", loginRouter);
 app.use("/", feedbackIns);
 app.use("/ans/", answer);
-app.use("/question", addquestion_router);
+app.use("/question", addquestionRouter);
 
-app.use("/admin", totalcandidates);
+app.use("/admin", totalCandidates);
 app.use("/", ansMarking);
 
-// app.use("/total/", totalcandidates);
-
-app.use("/response/", response_ans);
+app.use("/response/", responseAns);
 //app.use(cors(corsOptions));
 const port = process.env.PORT || 4200;
 app.listen(port, () => {

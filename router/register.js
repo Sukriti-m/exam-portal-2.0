@@ -3,14 +3,7 @@ const router = new express.Router();
 const User = require("../models/user");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
-// router.get("/register", async (req, res) => {
-//   try {
-//     const Usersdata = await User.find();
-//     res.status(201).send(Usersdata);
-//   } catch (err) {
-//     res.status(400).send(err);
-//   }
-// });
+
 router.post("/register", async (req, res) => {
   try {
     const {

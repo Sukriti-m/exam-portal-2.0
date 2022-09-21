@@ -2,7 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const Question = require("../models/question");
 const Answer = require("../models/answer");
-const quesArray = require("../services/quesArray.json");
+
 const User = require("../models/user");
 const verify = require("../middleware/auth");
 const atob = require("atob");

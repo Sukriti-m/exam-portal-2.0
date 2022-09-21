@@ -38,7 +38,7 @@ const questionSchema = new Schema({
   //   type: String,
   //   default: "",
   // },
-});
+},{timestamps:true});
 const Question = new mongoose.model("Question", questionSchema);
 
 module.exports = Question;

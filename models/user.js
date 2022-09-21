@@ -117,8 +117,9 @@ const UserSchema = new Schema({
   Aother: {
     f: { type: Boolean, default: false },
     val: { type: Array, default: [] },
-  },
-});
+  }},
+  {timestamps:true}
+);
 
 // token generate---------
 // UserSchema.methods.generateAuthToken = async function () {

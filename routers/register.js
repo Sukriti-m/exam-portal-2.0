@@ -25,21 +25,15 @@ router.post("/register", async (req, res) => {
       domain,
       isHosteler,
     } = await req.body;
-    const userExist = await User.findOne({ rollNum });
-    const mobile = await User.findOne({ mobileNum });
-    const emailExist = await User.findOne({ email });
-    const student = await User.findOne({ studentNum });
+    const userExist = await User.findOne({
+      rollNum,
+      mobileNum,
+      email,
+      studentNum,
+    });
+
     if (userExist) {
-      return res.status(400).send({ msg: "This roll number already exist" });
-    }
-    if (mobile) {
-      return res.status(400).send({ msg: "This mobile number already exist" });
-    }
-    if (emailExist) {
-      return res.status(400).send({ msg: "This Email already exist" });
-    }
-    if (student) {
-      return res.status(400).send({ msg: "This Student number already exist" });
+      return res.status(400).send({ msg: "These user details already exists" });
     }
 
     const user_create = new User({
@@ -63,7 +57,6 @@ router.post("/register", async (req, res) => {
     const saveUser = await user_create.save();
 
     // sending mail
-
     // const transporter = nodemailer.createTransport({
     //   service: "gmail",
     //   auth: {
@@ -105,20 +98,18 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// getting the user
-
-// router.get("/user/:id", async (req, res) => {
-//   try {
-//     const user = await User.findById(req.params.id);
-//     res.status(200).json(user);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(400).json(err);
-//   }
-// });
+//getting user
+router.get("/user/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.status(200).json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
+});
 
 // delete a user
-
 router.delete("/user/:id", async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
@@ -139,18 +130,17 @@ router.delete("/user/:id", async (req, res) => {
   }
 });
 
-// // Update a user
-
-// router.patch("/user/:id", async (req, res) => {
-//   try {
-//     const user = await User.findByIdAndUpdate(req.params.id, {
-//       $set: req.body,
-//     });
-//     res.status(200).json("Account got updated");
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).json(err);
-//   }
-// });
+// Update a user
+router.patch("/user/:id", async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, {
+      $set: req.body,
+    });
+    res.status(200).json("Account got updated");
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json(err);
+  }
+});
 
 module.exports = router;

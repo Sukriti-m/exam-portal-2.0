@@ -73,51 +73,9 @@ const UserSchema = new Schema({
     default: false,
   },
   lang: { type: String },
-  userNumCount: {
-    NumHtml: {
+  score: {
       type: Number,
       default: 0,
-    },
-    NumCss: {
-      type: Number,
-      default: 0,
-    },
-    NumSql: {
-      type: Number,
-      default: 0,
-    },
-    NumAptitude: {
-      type: Number,
-      default: 0,
-    },
-    NumLang: {
-      type: Number,
-      default: 0,
-    },
-    TotalNum: {
-      type: Number,
-      default: 0,
-    },
-  },
-  Ahtml: {
-    f: { type: Boolean, default: false },
-    val: { type: Array, default: [] },
-  },
-  Acss: {
-    f: { type: Boolean, default: false },
-    val: { type: Array, default: [] },
-  },
-  Asql: {
-    f: { type: Boolean, default: false },
-    val: { type: Array, default: [] },
-  },
-  Aaptitude: {
-    f: { type: Boolean, default: false },
-    val: { type: Array, default: [] },
-  },
-  Aother: {
-    f: { type: Boolean, default: false },
-    val: { type: Array, default: [] },
   }},
   {timestamps:true}
 );
@@ -147,17 +105,5 @@ const UserSchema = new Schema({
 const User = new mongoose.model("User", UserSchema);
 module.exports = User;
 
-//    --------registration-------
-//     name : String,
-//     email: String
-//     studentNum:Number
-//     rollNum: Number
-//     mobileNum: Number
-//     password: String
-//     year: Number
-//     branch: String
-//     gender: String
-//     isHosteler: Boolean
-//     startTime: Number
 
 

@@ -11,7 +11,6 @@ router.patch("/instruction", verify, async (req, res) => {
   try {
     const isVerified = true;
     const token = req.body.cookie_token;
-
     const dec = token.split(".")[1];
     const decode = JSON.parse(atob(dec));
     console.log(dec);
@@ -24,8 +23,7 @@ router.patch("/instruction", verify, async (req, res) => {
 
     res.status(200).send({ msg: "Language added successfully", isVerified });
   } catch (err) {
-    console.log(err);
-    res.status(500).send("err");
+    res.status(400).send(err);
   }
 });
 
@@ -104,22 +102,22 @@ router.post("/logintime", async (req, res) => {
 });
 
 //language selected
-router.post("/langselected", async (req, res) => {
-  try {
-    const token = req.body.cookie_token;
-    const dec = token.split(".")[1];
-    const decode = JSON.parse(atob(dec));
-    console.log(dec);
+// router.post("/langselected", async (req, res) => {
+//   try {
+//     const token = req.body.cookie_token;
+//     const dec = token.split(".")[1];
+//     const decode = JSON.parse(atob(dec));
+//     console.log(dec);
 
-    const language = await User.findById(decode._id, {
-      lang: 1,
-    });
-    console.log(language);
+//     const language = await User.findById(decode._id, {
+//       lang: 1,
+//     });
+//     console.log(language);
 
-    res.status(200).json(language);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send(err);
-  }
-});
+//     res.status(200).json(language);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).send(err);
+//   }
+// });
 module.exports = router;

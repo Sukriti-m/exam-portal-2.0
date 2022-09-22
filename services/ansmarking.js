@@ -4,15 +4,7 @@ const User = require("../models/user");
 const express = require("express");
 const verify = require("../middleware/auth");
 const atob = require("atob");
-const Joi = require("joi");
-
 const router = new express.Router();
-let NumHtml = 0,
-  NumCss = 0,
-  NumSql = 0,
-  NumAptitude = 0,
-  NumLang = 0,
-  TotalNum = 0;
 
 // router.patch("/quesansdata", verify, async (req, res) => {
 //   try {
@@ -129,29 +121,8 @@ router.get("/leaderboard", async (req, res) => {
   try {
     const leader = await User.find()
       .populate("results")
-      .sort({ "userNumCount.TotalNum": -1 });
+      .sort({ "userNumCount": -1 });
     res.status(200).send(leader);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-router.put("/fetchanswer", async (req, res) => {
-  try {
-    const userId = req.body.userId;
-    const ansdetails = await User.find({ _id: userId })
-      .populate("results")
-      .sort({ "userNumCount.TotalNum": -1 });
-    const data = {
-      name: ansdetails[0].name,
-      studentNum: ansdetails[0].studentNum,
-      Branch: ansdetails[0].branch,
-      score: ansdetails[0].userNumCount.TotalNum,
-      stTime: ansdetails[0].loginAt,
-      enTime: ansdetails[0].logoutAt,
-      AnswerRes: ansdetails[0].results,
-    };
-    res.status(200).send(data);
   } catch (error) {
     res.status(500).send(error);
   }
@@ -189,21 +160,35 @@ router.post("/score", verify, async (req, res) => {
     const token = req.body.cookie_token;
     const dec = token.split(".")[1];
     const decode = JSON.parse(atob(dec)); //contains Userid
-    const finuserAns = await Answer.find({ userId: decode });
+    const finduserAns = await Answer.find({ userId: decode });
     let Num = 0;
-    for (let i = 0; i < finuserAns.length; i++) {
+    for (let i = 0; i < finduserAns.length; i++) {
       // console.log(finuserAns[i]);
-      const AnsByQid = await Question.findById(finuserAns[i].Qid);
+      const AnsByQid = await Question.findById(finduserAns[i].Qid);
       // console.log(AnsByQid.options);
       for (let j = 0; j < 4; j++) {
         if (
-          finuserAns[i].userAnswer == AnsByQid.options[j].Oid &&
+          finduserAns[i].userAnswer == AnsByQid.options[j].Oid &&
           AnsByQid.options[j].isCorrect === true
         ) {
           Num++;
         }
       }
     }
+
+    User.findOneAndUpdate({ _id: decode }, {
+      $set: {
+        userNumCount: Num,
+        hasAppeared: true,
+        logoutAt: new Date().toISOString().replace(/T/, " ").replace(/\..+/, "")
+      }
+    }, (err, docs) => {
+      if (err)
+        console.log(err);
+      else
+        console.log(docs);
+    });
+
     console.log(Num);
     res.status(200).send({
       message: "User score saved successfullly",

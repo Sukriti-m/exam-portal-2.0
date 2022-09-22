@@ -3,7 +3,7 @@ const Answer = require("../models/answer");
 const User = require("../models/user");
 const express = require("express");
 const verify = require("../middleware/auth");
-const atob = require("atob");
+const jwtDecode = require("jwt-decode");
 const router = new express.Router();
 
 // router.patch("/quesansdata", verify, async (req, res) => {
@@ -157,10 +157,12 @@ router.get("/candidate", async (req, res) => {
 
 router.post("/score", verify, async (req, res) => {
   try {
-    const token = req.body.cookie_token;
-    const dec = token.split(".")[1];
-    const decode = JSON.parse(atob(dec)); //contains Userid
-    const finduserAns = await Answer.find({ userId: decode });
+    const cookie_token = req.body.cookie_token;
+    const userId = jwtDecode(cookie_token);
+    const { _id } = userId;
+
+   
+    const finduserAns = await Answer.find({ userId: _id });
     let Num = 0;
     for (let i = 0; i < finduserAns.length; i++) {
       // console.log(finuserAns[i]);
@@ -176,7 +178,7 @@ router.post("/score", verify, async (req, res) => {
       }
     }
 
-    User.findOneAndUpdate({ _id: decode }, {
+    User.findOneAndUpdate({ _id: _id}, {
       $set: {
         userNumCount: Num,
         logoutAt: new Date().toISOString().replace(/T/, " ").replace(/\..+/, "")
@@ -190,7 +192,7 @@ router.post("/score", verify, async (req, res) => {
 
     console.log(Num);
     res.status(200).send({
-      message: "User score saved successfullly",
+      message: "User score saved successfully",
     });
   } catch (err) {
     res.status(400).send(`err ${err}`);

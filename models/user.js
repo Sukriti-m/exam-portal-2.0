@@ -1,9 +1,7 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Joi = require("joi");
 
-<<<<<<< HEAD
 const UserSchema = new Schema(
   {
     results: [
@@ -78,86 +76,10 @@ const UserSchema = new Schema(
     userNumCount: {
       type: Number,
       default: 0,
-    },
+    }
   },
   { timestamps: true }
-=======
-const UserSchema = new Schema({
-  results: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Answer",
-    },
-  ],
-  name: { type: String, required: true, minlength: 2 },
-  email: { type: String, required: true, unique: true },
-  studentNum: {
-    type: Number,
-    required: true,
-    unique: true,
-    maxLength: [8, "max length is 8"],
-  },
-  rollNum: {
-    type: Number,
-    required: true,
-    unique: true,
-    minLength: [13, "min length is 13"],
-    maxLength: [13, "max length is 13"],
-  },
-  mobileNum: {
-    type: Number,
-    required: true,
-    maxLength: 10,
-    minLength: 10,
-    unique: true,
-  },
-  password: { type: String },
-  year: {
-    type: Number,
-    required: true,
-    min: 1,
-    max: 4,
-  },
-  branch: {
-    type: String,
-    required: true,
-  },
-  domain: {
-    type: String,
-    required: true,
-  },
-  gender: {
-    type: String,
-    required: true,
-  },
-  isHosteler: {
-    type: Boolean,
-    default: false,
-    required: true,
-  },
-  hasAppeared: {
-    type: Boolean,
-    default: false,
-  },
-  loginAt: {
-    type: Date,
-    default: null,
-  },
-  logoutAt: {
-    type: String,
-    default: null,
-  },
-  isAdmin: {
-    type: Boolean,
-    default: false,
-  },
-  lang: { type: String },
-  score: {
-      type: Number,
-      default: 0,
-  }},
-  {timestamps:true}
->>>>>>> dd1bf071b835c075701ad1ba336cac4a45edb162
+
 );
 
 // token generate---------
@@ -184,21 +106,3 @@ const UserSchema = new Schema({
 
 const User = new mongoose.model("User", UserSchema);
 module.exports = User;
-
-<<<<<<< HEAD
-//    --------registration-------
-//     name : String,
-//     email: String
-//     studentNum:Number
-//     rollNum: Number
-//     mobileNum: Number
-//     password: String
-//     year: Number
-//     branch: String
-//     gender: String
-//     isHosteler: Boolean
-//     startTime: Number
-=======
-
-
->>>>>>> dd1bf071b835c075701ad1ba336cac4a45edb162

@@ -4,7 +4,8 @@ const User = require("../models/user");
 const sendEmail = require("../services/email");
 const bcrypt = require("bcrypt");
 
-router.post("/register", async (req, res) => {
+
+router.post("/register",async (req, res) => {
   try {
     const {
       name,
@@ -52,7 +53,7 @@ router.post("/register", async (req, res) => {
 
     const saveUser = await userCreate.save();
     sendEmail(email);   //email sent  
-    res.status(200).send({
+    res.status(201).send({
       message: "User Successfully Registered",
       id: saveUser._id,
     });

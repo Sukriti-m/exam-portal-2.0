@@ -33,4 +33,4 @@ const emailer = function emailer(to) {
   });
 };
 
-module.exports = emailer;
+module.exports = sendEmail;

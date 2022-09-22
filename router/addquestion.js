@@ -4,7 +4,6 @@ const Question = require("../models/question");
 const Answer = require("../models/answer");
 const User = require("../models/user");
 const verify = require("../middleware/auth");
-const atob = require("atob");
 const jwtDecode = require("jwt-decode");
 
 
@@ -27,22 +26,6 @@ router.post("/addquestion", async (req, res) => {
         category,
         options,
       });
-      // for (let i of req.body.options) {
-      //   const question_create = new Question({
-      //     question,
-      //     category,
-      //     options
-      //   });
-      //     { "question":"what is?",
-      // "category":"python",
-      // "options":[{"value":"poiu",
-      // "Oid":"45659",
-      // "isCorrect":false},
-      // {"value":"qwert",
-      // "Oid":"789",
-      // "isCorrect":true}
-      // ]}
-
       await question_create.save();
       res
         .status(201)
@@ -139,7 +122,9 @@ router.put("/user-answers/:category", verify, async ({ body, params }, res) => {
       {
         $and: [{ userId: _id }, { category: category }],
       },
-      { _id: 0, Qid: 1, userAnswer: 1, ansid: 1, selectedOpt: 1 }
+      { _id: 0, Qid: 1, userAnswer: 1, ansid: 1
+      //  , selectedOpt: 1
+       }
     );
     let updatedQuestions = [];
     categoryQuestions.forEach((question) => {
@@ -149,14 +134,14 @@ router.put("/user-answers/:category", verify, async ({ body, params }, res) => {
           ...question._doc,
           ansid: questionFound.ansid,
           userAnswer: questionFound.userAnswer,
-          selectedOpt: questionFound.selectedOpt,
+        //  selectedOpt: questionFound.selectedOpt,
         };
       } else {
         question = {
           ...question._doc,
           ansid: 2,
           userAnswer: -1,
-          selectedOpt: "",
+        //  selectedOpt: "",
         };
       }
       updatedQuestions.push(question);
@@ -175,15 +160,6 @@ router.post("/questions/:category", verify, async (req, res) => {
       .json({ message: `All ${category} questions`, data: categoryQuestions });
   } catch (err) {}
 });
-router.put("/flags", verify, async ({ body, query }, res) => {
-  try {
-    const userId = jwtDecode(body.cookie_token);
-    const { _id } = userId;
-    const { category } = query;
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Something went wrong");
-  }
-});
+
 
 module.exports = router;

@@ -11,16 +11,10 @@ const answerSchema = new Schema(
     question: { type: String, required: true },
     category: { type: String, required: true },
     userAnswer: { type: Number, default: 200 },
-    isCorrect: { type: Boolean, default: false },
-    //ch
     ansid: {
       type: Number,
       default: 2,
-    },
-    selectedOpt: {
-      type: String,
-      default: "",
-    },
+    }
   },
   { timestamps: true }
 );

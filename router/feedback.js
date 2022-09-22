@@ -1,21 +1,18 @@
 const express = require("express");
 const FeedbackQuestion = require("../models/feedbackQuestion");
 const router = new express.Router();
-const atob = require("atob");
 const verify = require("../middleware/auth");
 const User = require("../models/user");
+const jwtDecode = require("jwt-decode");
 
 //instruction
 
 router.patch("/instruction", verify, async (req, res) => {
-  try {
+  try {const cookie_token = req.body.cookie_token;
+    const userId = jwtDecode(cookie_token);
+    const { _id } = userId;
     const isVerified = true;
-    const token = req.body.cookie_token;
-
-    const dec = token.split(".")[1];
-    const decode = JSON.parse(atob(dec));
-    console.log(dec);
-    await User.findByIdAndUpdate(decode, {
+    await User.findByIdAndUpdate(_id, {
       $set: {
         loginAt: new Date().toISOString().replace(/T/, " ").replace(/\..+/, ""),
         lang: req.body.lang,
@@ -24,8 +21,7 @@ router.patch("/instruction", verify, async (req, res) => {
 
     res.status(200).send({ msg: "Language added successfully", isVerified });
   } catch (err) {
-    console.log(err);
-    res.status(500).send("err");
+    res.status(400).send(err);
   }
 });
 
@@ -86,12 +82,11 @@ router.get("/feed/seefeedbackques", async (req, res) => {
 //login time
 router.post("/logintime", async (req, res) => {
   try {
-    const token = req.body.cookie_token;
-    const dec = token.split(".")[1];
-    const decode = JSON.parse(atob(dec));
-    console.log(dec);
+    const cookie_token = req.body.cookie_token;
+    const userId = jwtDecode(cookie_token);
+    const { _id } = userId;
 
-    const time = await User.findById(decode._id, {
+    const time = await User.findById(_id, {
       loginAt: 1,
     });
     console.log(time);
@@ -106,12 +101,11 @@ router.post("/logintime", async (req, res) => {
 //language selected
 router.post("/langselected", async (req, res) => {
   try {
-    const token = req.body.cookie_token;
-    const dec = token.split(".")[1];
-    const decode = JSON.parse(atob(dec));
-    console.log(dec);
+    const cookie_token = req.body.cookie_token;
+    const userId = jwtDecode(cookie_token);
+    const { _id } = userId;
 
-    const language = await User.findById(decode._id, {
+    const language = await User.findById(_id, {
       lang: 1,
     });
     console.log(language);

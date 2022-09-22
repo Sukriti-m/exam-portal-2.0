@@ -3,7 +3,6 @@ const router = new express.Router();
 const Answer = require("../models/answer");
 const Question = require("../models/question");
 const User = require("../models/user");
-const atob = require("atob");
 const jwtDecode = require("jwt-decode");
 const verify = require("../middleware/auth");
 
@@ -37,15 +36,15 @@ router.put("/set-answer", verify, async ({ body }, res) => {
   }
 });
 
-router.put("/submit/answer", verify, async ({ body }, res) => {
-  try {
-    const userId = jwtDecode(body.cookie_token);
-    const { _id } = userId;
-    res.status(200).send(_id);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+// router.put("/submit/answer", verify, async ({ body }, res) => {
+//   try {
+//     const userId = jwtDecode(body.cookie_token);
+//     const { _id } = userId;
+//     res.status(200).send(_id);
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// });
 
 // router.put("/answer", verify, async (req, res) => {
 //   try {

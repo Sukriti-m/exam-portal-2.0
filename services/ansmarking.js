@@ -179,7 +179,6 @@ router.post("/score", verify, async (req, res) => {
     User.findOneAndUpdate({ _id: decode }, {
       $set: {
         userNumCount: Num,
-        hasAppeared: true,
         logoutAt: new Date().toISOString().replace(/T/, " ").replace(/\..+/, "")
       }
     }, (err, docs) => {

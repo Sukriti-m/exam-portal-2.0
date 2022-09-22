@@ -14,22 +14,22 @@ router.post("/login", async (req, res) => {
   try {
     const {password, studentNum} = req.body;
 
-    const user_check = await User.findOne({ studentNum: studentNum });
-    if (!user_check) {
+    const userCheck = await User.findOne({ studentNum: studentNum });
+    if (!userCheck) {
       res.status(400).send({ msg: "User not registred" });
     }
-    if (user_check) {
+    if (userCheck) {
       const matchUser_password = await bcrypt.compare(
         password,
-        user_check.password
+        userCheck.password
       );
       // const matchAdmin_password = await bcrypt.compare(
       //   password,
-      //   user_check.adminPassword
+      //   userCheck.adminPassword
       // );
-      const pay_load = { _id: user_check._id };
+      const pay_load = { _id: userCheck._id };
       const cookie_token = jwt.sign(pay_load, process.env.TOKEN_SECRET_KEY);
-      // const cookie_token = await user_check.generateAuthToken();
+      // const cookie_token = await userCheck.generateAuthToken();
       // console.log(cookie_token);
 
       //add cookie
@@ -40,7 +40,7 @@ router.post("/login", async (req, res) => {
       });
       // if (matchAdmin_password) {
       //   return res.status(200).send({
-      //     isAdmin: user_check.isAdmin,
+      //     isAdmin: userCheck.isAdmin,
       //     cookie_token: `${cookie_token}`,
       //   });
       //
@@ -48,8 +48,8 @@ router.post("/login", async (req, res) => {
         return res.status(200).send({
           message: "User logged in successfully",
           cookie_token: cookie_token,
-          isAdmin: user_check.isAdmin,
-          hasAppeared: user_check.hasAppeared,
+          isAdmin: userCheck.isAdmin,
+          hasAppeared: userCheck.hasAppeared,
         });
       } else {
         res.status(400).send({ msg: "Wrong Password" });

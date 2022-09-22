@@ -2,36 +2,11 @@ const express = require("express");
 const router = new express.Router();
 const Question = require("../models/question");
 const Answer = require("../models/answer");
-
 const User = require("../models/user");
 const verify = require("../middleware/auth");
 const atob = require("atob");
 const jwtDecode = require("jwt-decode");
 
-//add question array to db from json file
-//one time code to directly add all the questions to db
-
-router.get("/addquestion", async (req, res) => {
-  try {
-    // for (let i = 0; i < quesArray.length; i++) {
-    //   const quesArray_add = new Question({
-    //     question: quesArray[i].question,
-    //     quesid: 2022 * i,
-    //     category: quesArray[i].category,
-    //     option1: quesArray[i].option1,
-    //     option2: quesArray[i].option2,
-    //     option3: quesArray[i].option3,
-    //     option4: quesArray[i].option4,
-    //     correctAnswer: quesArray[i].correctAnswer,
-    //   });
-    //   quesArray_add.save();
-    // }
-
-    res.status(200).send("Api working!");
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
 
 router.get("/seequestion", async (req, res) => {
   try {

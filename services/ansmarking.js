@@ -120,7 +120,6 @@ const router = new express.Router();
 router.get("/leaderboard", async (req, res) => {
   try {
     const leader = await User.find()
-      .populate("results")
       .sort({ "userNumCount": -1 });
     res.status(200).send(leader);
   } catch (error) {

@@ -4,12 +4,6 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
   {
-    results: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Answer",
-      },
-    ],
     name: { type: String, required: true, minlength: 2 },
     email: { type: String, required: true, unique: true },
     studentNum: {

@@ -3,7 +3,6 @@ const router = new express.Router();
 const Answer = require("../models/answer");
 const Question = require("../models/question");
 const User = require("../models/user");
-const atob = require("atob");
 const jwtDecode = require("jwt-decode");
 const verify = require("../middleware/auth");
 

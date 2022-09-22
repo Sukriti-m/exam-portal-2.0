@@ -204,6 +204,7 @@ router.post("/score", verify, async (req, res) => {
         }
       }
     }
+    // User.findByIdAndUpdate(decode, { $set: { userNumCount: Num } });
     console.log(Num);
     res.status(200).send({
       message: "User score saved successfullly",

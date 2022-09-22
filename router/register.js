@@ -4,8 +4,7 @@ const User = require("../models/user");
 const sendEmail = require("../services/email");
 const bcrypt = require("bcrypt");
 
-
-router.post("/register",async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     const {
       name,
@@ -20,13 +19,7 @@ router.post("/register",async (req, res) => {
       isHosteler,
     } = req.body;
     const userExist = await User.findOne({
-      $or: [
-        { rollNum },
-        { mobileNum },
-        { email },
-        { studentNum }
-      ]
-
+      $or: [{ rollNum }, { mobileNum }, { email }, { studentNum }],
     });
 
     if (userExist) {
@@ -52,7 +45,7 @@ router.post("/register",async (req, res) => {
     userCreate.password = await bcrypt.hash(userCreate.password, salt);
 
     const saveUser = await userCreate.save();
-    sendEmail(email);   //email sent  
+    // sendEmail(email);
     res.status(201).send({
       message: "User Successfully Registered",
       id: saveUser._id,

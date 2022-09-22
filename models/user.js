@@ -74,27 +74,6 @@ const UserSchema = new Schema(
   },
   { timestamps: true }
 );
-// token generate---------
-// UserSchema.methods.generateAuthToken = async function () {
-//   try {
-//     const payload = { _id: this._id };
-//     const token = jwt.sign(payload, process.env.TOKEN_SECRET_KEY);
-//     return token;
-//   } catch (err) {
-//     res.status(400).send(err);
-//   }
-// };
-
-// password encryption------------
-// UserSchema.pre("save", async function (next) {
-//   if (this.isModified("password")) {
-//     this.password = await bcrypt.hash(this.password, saltRounds);
-//   }
-//   if (this.isModified("adminPassword")) {
-//     this.adminPassword = await bcrypt.hash(this.adminPassword, saltRounds);
-//   }
-//   next();
-// });
 
 const User = new mongoose.model("User", UserSchema);
 module.exports = User;

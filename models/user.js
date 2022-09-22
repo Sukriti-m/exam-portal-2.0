@@ -1,9 +1,9 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Joi = require('joi'); 
 
-const UserSchema = new Schema({
+const UserSchema = new Schema(
+  {
   results: [
     {
       type: Schema.Types.ObjectId,
@@ -76,10 +76,10 @@ const UserSchema = new Schema({
   score: {
       type: Number,
       default: 0,
-  }},
+  }
+},
   {timestamps:true}
 );
-
 // token generate---------
 // UserSchema.methods.generateAuthToken = async function () {
 //   try {

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = new express.Router();
 const FeedAnswer = require("../models/feedresponse");
-const FeedQuestion = require("../models/ins_feed");
+const FeedbackQuestion = require("../models/feedbackQuestion");
 const User = require("../models/user");
 const atob = require("atob");
 const verify = require("../middleware/auth");

@@ -4,7 +4,8 @@ const User = require("../models/user");
 const sendEmail = require("../services/email");
 const bcrypt = require("bcrypt");
 
-router.post("/register", async (req, res) => {
+
+router.post("/register",async (req, res) => {
   try {
     const {
       name,

@@ -1,125 +1,85 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Joi = require('joi'); 
+const Joi = require("joi");
 
-const UserSchema = new Schema({
-  results: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Answer",
-    },
-  ],
-  name: { type: String, required: true, minlength: 2 },
-  email: { type: String, required: true, unique: true },
-  studentNum: {
-    type: Number,
-    required: true,
-    unique: true,
-    maxLength: [8, "max length is 8"],
-  },
-  rollNum: {
-    type: Number,
-    required: true,
-    unique: true,
-    minLength: [13, "min length is 13"],
-    maxLength: [13, "max length is 13"],
-  },
-  mobileNum: {
-    type: Number,
-    required: true,
-    maxLength: 10,
-    minLength: 10,
-    unique: true,
-  },
-  password: { type: String },
-  year: {
-    type: Number,
-    required: true,
-    min: 1,
-    max: 4,
-  },
-  branch: {
-    type: String,
-    required: true,
-  },
-  domain: {
-    type: String,
-    required: true,
-  },
-  gender: {
-    type: String,
-    required: true,
-  },
-  isHosteler: {
-    type: Boolean,
-    default: false,
-    required: true,
-  },
-  hasAppeared: {
-    type: Boolean,
-    default: false,
-  },
-  loginAt: {
-    type: Date,
-    default: null,
-  },
-  logoutAt: {
-    type: String,
-    default: null,
-  },
-  isAdmin: {
-    type: Boolean,
-    default: false,
-  },
-  lang: { type: String },
-  userNumCount: {
-    NumHtml: {
+const UserSchema = new Schema(
+  {
+    results: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Answer",
+      },
+    ],
+    name: { type: String, required: true, minlength: 2 },
+    email: { type: String, required: true, unique: true },
+    studentNum: {
       type: Number,
-      default: 0,
+      required: true,
+      unique: true,
+      maxLength: [8, "max length is 8"],
     },
-    NumCss: {
+    rollNum: {
       type: Number,
-      default: 0,
+      required: true,
+      unique: true,
+      minLength: [13, "min length is 13"],
+      maxLength: [13, "max length is 13"],
     },
-    NumSql: {
+    mobileNum: {
       type: Number,
-      default: 0,
+      required: true,
+      maxLength: 10,
+      minLength: 10,
+      unique: true,
     },
-    NumAptitude: {
+    password: { type: String },
+    year: {
       type: Number,
-      default: 0,
+      required: true,
+      min: 1,
+      max: 4,
     },
-    NumLang: {
-      type: Number,
-      default: 0,
+    branch: {
+      type: String,
+      required: true,
     },
-    TotalNum: {
+    domain: {
+      type: String,
+      required: true,
+    },
+    gender: {
+      type: String,
+      required: true,
+    },
+    isHosteler: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    hasAppeared: {
+      type: Boolean,
+      default: false,
+    },
+    loginAt: {
+      type: Date,
+      default: null,
+    },
+    logoutAt: {
+      type: String,
+      default: null,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    lang: { type: String },
+    userNumCount: {
       type: Number,
       default: 0,
     },
   },
-  Ahtml: {
-    f: { type: Boolean, default: false },
-    val: { type: Array, default: [] },
-  },
-  Acss: {
-    f: { type: Boolean, default: false },
-    val: { type: Array, default: [] },
-  },
-  Asql: {
-    f: { type: Boolean, default: false },
-    val: { type: Array, default: [] },
-  },
-  Aaptitude: {
-    f: { type: Boolean, default: false },
-    val: { type: Array, default: [] },
-  },
-  Aother: {
-    f: { type: Boolean, default: false },
-    val: { type: Array, default: [] },
-  }},
-  {timestamps:true}
+  { timestamps: true }
 );
 
 // token generate---------
@@ -159,5 +119,3 @@ module.exports = User;
 //     gender: String
 //     isHosteler: Boolean
 //     startTime: Number
-
-

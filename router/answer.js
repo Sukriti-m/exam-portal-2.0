@@ -47,148 +47,148 @@ router.put("/submit/answer", verify, async ({ body }, res) => {
   }
 });
 
-router.put("/answer", verify, async (req, res) => {
-  try {
-    // const userId = jwtDecode(body.cookie_token);
-    // const { _id } = userId;
-    const isVerified = true;
-    const token = req.body.cookie_token;
-    const dec = token.split(".")[1];
-    const decode = JSON.parse(atob(dec)); //contains Userid
-    console.log(dec);
-    const { question, category, userAnswer, ansid, Qid } = req.body;
+// router.put("/answer", verify, async (req, res) => {
+//   try {
+//     // const userId = jwtDecode(body.cookie_token);
+//     // const { _id } = userId;
+//     const isVerified = true;
+//     const token = req.body.cookie_token;
+//     const dec = token.split(".")[1];
+//     const decode = JSON.parse(atob(dec)); //contains Userid
+//     console.log(dec);
+//     const { question, category, userAnswer, ansid, Qid } = req.body;
 
-    const existAns = await Answer.find({ Qid: Qid, userId: decode._id });
-    if (existAns.length != 0) {
-      await Answer.findOneAndUpdate(
-        {
-          _id: existAns[0]._id,
-        },
-        {
-          $set: {
-            ansid: ansid,
-            userAnswer: userAnswer,
-          },
-        }
-      );
-      console.log(existAns[0]._id);
-      const quesFound = await Question.findById(Qid);
+//     const existAns = await Answer.find({ Qid: Qid, userId: decode._id });
+//     if (existAns.length != 0) {
+//       await Answer.findOneAndUpdate(
+//         {
+//           _id: existAns[0]._id,
+//         },
+//         {
+//           $set: {
+//             ansid: ansid,
+//             userAnswer: userAnswer,
+//           },
+//         }
+//       );
+//       console.log(existAns[0]._id);
+//       const quesFound = await Question.findById(Qid);
 
-      if (quesFound) {
-        for (let i = 0; i < 4; i++) {
-          if (userAnswer == quesFound.options[i].Oid) {
-            const selopt = quesFound.options[i].value;
-            await Answer.findOneAndUpdate(
-              {
-                _id: existAns[0]._id,
-              },
-              {
-                $set: {
-                  selectedOpt: selopt,
-                },
-              }
-            );
+//       if (quesFound) {
+//         for (let i = 0; i < 4; i++) {
+//           if (userAnswer == quesFound.options[i].Oid) {
+//             const selopt = quesFound.options[i].value;
+//             await Answer.findOneAndUpdate(
+//               {
+//                 _id: existAns[0]._id,
+//               },
+//               {
+//                 $set: {
+//                   selectedOpt: selopt,
+//                 },
+//               }
+//             );
 
-            if (quesFound.options[i].isCorrect === true) {
-              await Answer.findOneAndUpdate(
-                {
-                  _id: existAns[0]._id,
-                },
-                {
-                  $set: {
-                    isCorrect: true,
-                  },
-                }
-              );
-              console.log("Correct answer");
-            }
-          }
-        }
-      }
-      // change
-      const Foundans = await Answer.findById(existAns[0]._id);
-      const selopt = Foundans.selectedOpt;
+//             if (quesFound.options[i].isCorrect === true) {
+//               await Answer.findOneAndUpdate(
+//                 {
+//                   _id: existAns[0]._id,
+//                 },
+//                 {
+//                   $set: {
+//                     isCorrect: true,
+//                   },
+//                 }
+//               );
+//               console.log("Correct answer");
+//             }
+//           }
+//         }
+//       }
+//       // change
+//       const Foundans = await Answer.findById(existAns[0]._id);
+//       const selopt = Foundans.selectedOpt;
 
-      let msg = "Answer added successfully";
-      if (ansid === 1 && selopt != "") {
-        msg = "Answer saved successfully";
-      } else if (ansid === 3 && selopt != "") {
-        msg = "marked and review successfully added";
-      } else if ((ansid == 1 || ansid == 3) && selopt == "") {
-        msg = "attempted but not answer";
-      }
-      res.status(201).send({ msg, ansid, selopt, isVerified });
-    } else {
-      let answer_create = new Answer({
-        userId: decode,
-        question,
-        category,
-        userAnswer,
-        ansid,
-        Qid,
-      });
-      await answer_create.save();
+//       let msg = "Answer added successfully";
+//       if (ansid === 1 && selopt != "") {
+//         msg = "Answer saved successfully";
+//       } else if (ansid === 3 && selopt != "") {
+//         msg = "marked and review successfully added";
+//       } else if ((ansid == 1 || ansid == 3) && selopt == "") {
+//         msg = "attempted but not answer";
+//       }
+//       res.status(201).send({ msg, ansid, selopt, isVerified });
+//     } else {
+//       let answer_create = new Answer({
+//         userId: decode,
+//         question,
+//         category,
+//         userAnswer,
+//         ansid,
+//         Qid,
+//       });
+//       await answer_create.save();
 
-      await User.findOneAndUpdate(
-        {
-          _id: answer_create.userId,
-        },
-        {
-          $push: { results: answer_create._id },
-        }
-      );
+//       await User.findOneAndUpdate(
+//         {
+//           _id: answer_create.userId,
+//         },
+//         {
+//           $push: { results: answer_create._id },
+//         }
+//       );
 
-      const quesFound = await Question.findById(Qid);
+//       const quesFound = await Question.findById(Qid);
 
-      if (quesFound) {
-        for (let i = 0; i < 4; i++) {
-          if (userAnswer == quesFound.options[i].Oid) {
-            const selopt = quesFound.options[i].value;
-            await Answer.findOneAndUpdate(
-              {
-                _id: answer_create._id,
-              },
-              {
-                $set: {
-                  selectedOpt: selopt,
-                },
-              }
-            );
+//       if (quesFound) {
+//         for (let i = 0; i < 4; i++) {
+//           if (userAnswer == quesFound.options[i].Oid) {
+//             const selopt = quesFound.options[i].value;
+//             await Answer.findOneAndUpdate(
+//               {
+//                 _id: answer_create._id,
+//               },
+//               {
+//                 $set: {
+//                   selectedOpt: selopt,
+//                 },
+//               }
+//             );
 
-            if (quesFound.options[i].isCorrect === true) {
-              await Answer.findOneAndUpdate(
-                {
-                  _id: answer_create._id,
-                },
-                {
-                  $set: {
-                    isCorrect: true,
-                  },
-                }
-              );
-              console.log("Correct answer");
-            }
-          }
-        }
-      }
-      // change
-      const Foundans = await Answer.findById(answer_create._id);
-      const selopt = Foundans.selectedOpt;
+//             if (quesFound.options[i].isCorrect === true) {
+//               await Answer.findOneAndUpdate(
+//                 {
+//                   _id: answer_create._id,
+//                 },
+//                 {
+//                   $set: {
+//                     isCorrect: true,
+//                   },
+//                 }
+//               );
+//               console.log("Correct answer");
+//             }
+//           }
+//         }
+//       }
+//       // change
+//       const Foundans = await Answer.findById(answer_create._id);
+//       const selopt = Foundans.selectedOpt;
 
-      let msg = "Answer added successfully";
-      if (ansid === 1 && selopt != "") {
-        msg = "Answer saved successfully";
-      } else if (ansid === 3 && selopt != "") {
-        msg = "marked and review successfully added";
-      } else if ((ansid == 1 || ansid == 3) && selopt == "") {
-        msg = "attempted but not answer";
-      }
-      res.status(201).send({ msg, ansid, selopt, isVerified });
-    }
-  } catch (error) {
-    res.status(500).send(`err ${error}`);
-  }
-});
+//       let msg = "Answer added successfully";
+//       if (ansid === 1 && selopt != "") {
+//         msg = "Answer saved successfully";
+//       } else if (ansid === 3 && selopt != "") {
+//         msg = "marked and review successfully added";
+//       } else if ((ansid == 1 || ansid == 3) && selopt == "") {
+//         msg = "attempted but not answer";
+//       }
+//       res.status(201).send({ msg, ansid, selopt, isVerified });
+//     }
+//   } catch (error) {
+//     res.status(500).send(`err ${error}`);
+//   }
+// });
 
 router.put("/seeanswer", async (req, res) => {
   try {

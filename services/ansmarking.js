@@ -51,9 +51,7 @@ router.post("/score", verify, async (req, res) => {
     const finduserAns = await Answer.find({ userId: _id });
     let Num = 0;
     for (let i = 0; i < finduserAns.length; i++) {
-      // console.log(finuserAns[i]);
       const AnsByQid = await Question.findById(finduserAns[i].Qid);
-      // console.log(AnsByQid.options);
       for (let j = 0; j < 4; j++) {
         if (
           finduserAns[i].userAnswer == AnsByQid.options[j].Oid &&

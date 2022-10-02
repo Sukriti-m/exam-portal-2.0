@@ -50,8 +50,8 @@ router.post("/register", async (req, res) => {
       message: "User Successfully Registered",
       id: saveUser._id,
     });
-  } catch (err) {
-    res.status(400).send(`err ${err}`);
+  } catch (error) {
+    res.status(400).send(`err ${error}`);
   }
 });
 

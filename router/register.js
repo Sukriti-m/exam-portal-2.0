@@ -55,16 +55,14 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.get("/users",async(req,res) => {
-  try
-  {
-    comst users = await User.find()
+router.get("/users", async (req, res) => {
+  try {
+    const user = await User.find();
     res.status(200).json(user);
-  }catch (err) {
+  } catch (err) {
     console.log(err);
     res.status(400).json(err);
   }
-    
 });
 //getting user
 router.get("/user/:id", async (req, res) => {

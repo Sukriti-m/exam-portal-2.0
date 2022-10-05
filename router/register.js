@@ -57,13 +57,7 @@ router.post("/register", async (req, res) => {
 
 router.get("/users", async (req, res) => {
   try {
-    const user = await User.find({  name,
-      email,
-      studentNum,
-      rollNum,
-       hasAppeared,
-       isAdmin
-     });
+    const user = await User.find();
     res.status(200).json(user);
   } catch (err) {
     console.log(err);

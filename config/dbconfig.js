@@ -2,11 +2,7 @@ const mongoose = require("mongoose");
 
 mongoose
   .connect(
-    process.env.DB_URL,
-
-    {
-      useNewUrlParser: true,
-    }
+    process.env.DB_URL
   )
   .then(() => {
     console.log("Data base is connected successfully");

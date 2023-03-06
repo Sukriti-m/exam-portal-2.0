@@ -8,8 +8,6 @@ The portal is built on NodeJS and ExpressJS, which provides a fast and efficient
 
 To ensure the smooth functioning of the portal, we have used Mongoose, an Object Data Modeling (ODM) library for MongoDB. It provides a straightforward, schema-based solution for modeling application data and works seamlessly with NodeJS and MongoDB.
 
-The Cyclic package is used to schedule the exams at regular intervals. It provides a simple and easy-to-use interface to create and manage scheduled tasks. By using Cyclic, we can ensure that the exams are conducted at the scheduled time without any manual intervention.
-
 Overall, the Exam Portal project is a comprehensive and efficient solution for the selection process of the technical society. The use of various technologies such as NodeJS, ExpressJS, MongoDB, Nodemailer, Mongoose, and Cyclic makes it a robust and scalable platform that can handle a large number of users and exams.
 
 

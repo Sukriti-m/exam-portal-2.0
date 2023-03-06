@@ -33,7 +33,7 @@ router.get("/candidate", async (req, res) => {
         isHosteler: 1,
         lang: 1,
         loginAt: 1,
-        "userNumCount.TotalNum": 1,
+        userNumCount: 1,
       }
     );
     res.status(200).send(details);

@@ -7,7 +7,7 @@ const verify = require("../middleware/auth");
 const jwtDecode = require("jwt-decode");
 
 router.post("/feedanswer", verify, async (req, res) => {
-  try {
+  try { await new Promise(resolve => setTimeout(resolve, 5000));
     const isVerified = true;
 
     const { question, Qid, value, feedtext, cookie_token } = await req.body;

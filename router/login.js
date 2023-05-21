@@ -7,7 +7,9 @@ const router = new express.Router();
 
 // login route
 router.post("/login", async (req, res) => {
-  try {
+  try { await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
     const { password, studentNum } = req.body;
 
     const userCheck = await User.findOne({ studentNum: studentNum });

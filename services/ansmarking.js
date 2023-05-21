@@ -7,7 +7,7 @@ const jwtDecode = require("jwt-decode");
 const router = new express.Router();
 
 router.get("/leaderboard", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 10000));
+  try { await new Promise(resolve => setTimeout(resolve, 5000));
     const leader = await User.find().sort({ userNumCount: -1 });
     res.status(200).send(leader);
   } catch (error) {
@@ -18,7 +18,7 @@ router.get("/leaderboard", async (req, res) => {
 // get candidate details
 
 router.get("/candidate", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 10000));
+  try { await new Promise(resolve => setTimeout(resolve, 5000));
     const details = await User.find(
       {},
       {
@@ -43,7 +43,7 @@ router.get("/candidate", async (req, res) => {
 });
 
 router.post("/score", verify, async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 10000));
+  try { await new Promise(resolve => setTimeout(resolve, 5000));
     const cookie_token = req.body.cookie_token;
     const userId = jwtDecode(cookie_token);
     const { _id } = userId;

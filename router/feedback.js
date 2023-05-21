@@ -8,7 +8,7 @@ const jwtDecode = require("jwt-decode");
 //instruction
 
 router.patch("/instruction", verify, async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 10000));const cookie_token = req.body.cookie_token;
+  try { await new Promise(resolve => setTimeout(resolve, 5000));const cookie_token = req.body.cookie_token;
     const userId = jwtDecode(cookie_token);
     const { _id } = userId;
     const isVerified = true;
@@ -27,7 +27,7 @@ router.patch("/instruction", verify, async (req, res) => {
 
 //feedback
 router.post("/addfeedback", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 10000));
+  try { await new Promise(resolve => setTimeout(resolve, 5000));
     const { question, queryText } = await req.body;
     let feedbackques_create = new FeedbackQuestion({
       question,
@@ -47,7 +47,7 @@ router.post("/addfeedback", async (req, res) => {
 // delete an feedback id
 
 router.delete("/feedback/:id", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 10000));
+  try { await new Promise(resolve => setTimeout(resolve, 5000));
     await FeedbackQuestion.findByIdAndDelete(req.params.id);
     res.status(200).json(" Feedback Question deleted");
   } catch (err) {
@@ -58,7 +58,7 @@ router.delete("/feedback/:id", async (req, res) => {
 // Update a feedback question
 
 router.patch("/feedback/:id", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 10000));
+  try { await new Promise(resolve => setTimeout(resolve, 5000));
     await FeedbackQuestion.findByIdAndUpdate(req.params.id, {
       $set: req.body,
     });
@@ -71,7 +71,7 @@ router.patch("/feedback/:id", async (req, res) => {
 // get all feedback question
 
 router.get("/feed/seefeedbackques", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 10000));
+  try { await new Promise(resolve => setTimeout(resolve, 5000));
     const feedbackQuestionsData = await FeedbackQuestion.find();
     res.status(201).json(feedbackQuestionsData);
   } catch (err) {
@@ -81,7 +81,7 @@ router.get("/feed/seefeedbackques", async (req, res) => {
 
 //login time
 router.post("/logintime", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 10000));
+  try { await new Promise(resolve => setTimeout(resolve, 5000));
     const cookie_token = req.body.cookie_token;
     const userId = jwtDecode(cookie_token);
     const { _id } = userId;
@@ -100,7 +100,7 @@ router.post("/logintime", async (req, res) => {
 
 //language selected
 router.post("/langselected", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 10000));
+  try { await new Promise(resolve => setTimeout(resolve, 5000));
     const cookie_token = req.body.cookie_token;
     const userId = jwtDecode(cookie_token);
     const { _id } = userId;

@@ -8,7 +8,7 @@ const jwtDecode = require("jwt-decode");
 
 
 router.get("/seequestion", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, 10000));
     const QuestionsData = await Question.find();
     res.status(200).send({ result: QuestionsData });
   } catch (err) {
@@ -17,7 +17,7 @@ router.get("/seequestion", async (req, res) => {
 });
 
 router.post("/addquestion", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, 10000));
     const { question, category, options } = await req.body;
 
     if (options.length === 4) {
@@ -41,7 +41,7 @@ router.post("/addquestion", async (req, res) => {
 //  getting the question based on id
 
 router.get("/:qid", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, 10000));
     const question = await Question.findById(req.params.qid);
     for (let k = 0; k < 4; k++) {
       var j = Math.floor(Math.random() * (k + 1));
@@ -60,7 +60,7 @@ router.get("/:qid", async (req, res) => {
 // getting the questions based on category
 
 router.get("/category/:category", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, 10000));
     const ques_category = await Question.find({
       category: req.params.category,
     });
@@ -74,7 +74,7 @@ router.get("/category/:category", async (req, res) => {
 // delete a question
 
 router.delete("/:id", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, 10000));
     await Question.findByIdAndDelete(req.params.id);
     res.status(200).json("Question deleted");
   } catch (err) {
@@ -85,7 +85,7 @@ router.delete("/:id", async (req, res) => {
 // Update a question
 
 router.patch("/:id", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, 10000));
     await Question.findByIdAndUpdate(req.params.id, {
       $set: req.body,
     });
@@ -95,7 +95,7 @@ router.patch("/:id", async (req, res) => {
   }
 });
 router.get("/shuffle/:category", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, 10000));
     const ques_category = await Question.find({
       category: req.params.category,
     });
@@ -113,7 +113,7 @@ router.get("/shuffle/:category", async (req, res) => {
 
 // To-Do : return all the questions with user data and flags
 router.put("/user-answers/:category", verify, async ({ body, params }, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, 10000));
     const userId = jwtDecode(body.cookie_token);
     const { _id } = userId;
     const { category } = params;
@@ -153,7 +153,7 @@ router.put("/user-answers/:category", verify, async ({ body, params }, res) => {
   }
 });
 router.post("/questions/:category", verify, async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, 10000));
     const categoryQuestions = await Question.find({ category: category });
     res
       .status(200)

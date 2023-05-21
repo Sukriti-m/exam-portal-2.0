@@ -9,7 +9,7 @@ const verify = require("../middleware/auth");
 const mongoose = require("mongoose");
 
 router.put("/set-answer", verify, async ({ body }, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, 10000));
     const { question, userAnswer, ansid, Qid, cookie_token, category } = body;
     const userId = jwtDecode(cookie_token);
     const { _id } = userId;
@@ -37,7 +37,7 @@ router.put("/set-answer", verify, async ({ body }, res) => {
 });
 
 router.put("/submit/answer", verify, async ({ body }, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, 10000));
     const userId = jwtDecode(body.cookie_token);
     const { _id } = userId;
     res.status(200).send(_id);
@@ -47,7 +47,7 @@ router.put("/submit/answer", verify, async ({ body }, res) => {
 });
 
 router.put("/seeanswer", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, 10000));
     const userId = req.body.userId;
 
     const AnswerData = await Answer.find({ userId: userId }).populate(

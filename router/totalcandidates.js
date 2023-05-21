@@ -11,7 +11,7 @@ const FeedbackQuestion = require("../models/feedbackQuestion");
 const Question = require("../models/question");
 
 router.get("/total", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, 10000));
     const total_registration = await User.find().countDocuments();
     const total_ques_uploaded = await Question.find().countDocuments();
     const total_feedback_ques = await FeedbackQuestion.find().countDocuments();

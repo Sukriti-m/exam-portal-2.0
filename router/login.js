@@ -7,8 +7,8 @@ const router = new express.Router();
 
 // login route
 router.post("/login", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 10000));
-    await new Promise(resolve => setTimeout(resolve, 10000));
+  try { await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
     const { password, studentNum } = req.body;
 

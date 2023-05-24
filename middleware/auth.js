@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res, next) => {
-  try { await new Promise(resolve => setTimeout(resolve, 10000));
+  try { await new Promise(resolve => setTimeout(resolve, 5000));
     const token = req.body.cookie_token;
 
     if (!token) {

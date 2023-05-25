@@ -5,7 +5,7 @@ const sendEmail = require("../services/email");
 const bcrypt = require("bcrypt");
 
 router.post("/register", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, process.env.DELAY_SEC));
     const {
       name,
       email,
@@ -56,7 +56,7 @@ router.post("/register", async (req, res) => {
 });
 
 router.get("/users", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, process.env.DELAY_SEC));
     const user = await User.find();
     res.status(200).json(user);
   } catch (err) {
@@ -66,7 +66,7 @@ router.get("/users", async (req, res) => {
 });
 //getting user
 router.get("/user/:id", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, process.env.DELAY_SEC));
     const user = await User.findById(req.params.id);
     res.status(200).json(user);
   } catch (err) {
@@ -77,7 +77,7 @@ router.get("/user/:id", async (req, res) => {
 
 // delete a user
 router.delete("/user/:id", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, process.env.DELAY_SEC));
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) {
       return res.status(400).json({
@@ -98,7 +98,7 @@ router.delete("/user/:id", async (req, res) => {
 
 // Update a user
 router.patch("/user/:id", async (req, res) => {
-  try { await new Promise(resolve => setTimeout(resolve, 5000));
+  try { await new Promise(resolve => setTimeout(resolve, process.env.DELAY_SEC));
     await User.findByIdAndUpdate(req.params.id, {
       $set: req.body,
     });

@@ -9,10 +9,3 @@ The portal is built on NodeJS and ExpressJS, which provides a fast and efficient
 To ensure the smooth functioning of the portal, we have used Mongoose, an Object Data Modeling (ODM) library for MongoDB. It provides a straightforward, schema-based solution for modeling application data and works seamlessly with NodeJS and MongoDB.
 
 Overall, the Exam Portal project is a comprehensive and efficient solution for the selection process of the technical society. The use of various technologies such as NodeJS, ExpressJS, MongoDB, Nodemailer, Mongoose, and Cyclic makes it a robust and scalable platform that can handle a large number of users and exams.
-
-
-
-
-
-# exam-portal-3.0
-# exam-portal-3.0
